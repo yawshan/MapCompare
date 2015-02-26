@@ -1,0 +1,185 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+        <title>OpenLayers WMTS Example</title>
+        <script src="http://www.openlayers.org/api/2.12/OpenLayers.js"></script>
+        <link rel="stylesheet" href="http://www.openlayers.org/api/theme/default/style.css" type="text/css">
+   
+         <style>
+            .olControlAttribution {
+                bottom: 5px;
+            }
+            .olImageLoadError { 
+			    /* when OL encounters a 404, don't display the pink image */
+			    display: none !important;
+			} 
+        </style>
+        
+        <script type="text/javascript">
+
+    OpenLayers.ProxyHost = "/MapCompare/cgi-bin/proxy.cgi?url=";
+    
+    var map;
+    var doc = null;
+    var format;
+    var xmlformat;
+    var Service=[];
+
+    function init() {
+        
+        format = new OpenLayers.Format.WMTSCapabilities({
+            /**
+             * This particular service is not in compliance with the WMTS spec and
+             * is providing coordinates in y, x order regardless of the CRS.  To
+             * work around this, we can provide the format a table of CRS URN that
+             * should be considered y, x order.  These will extend the defaults on
+             * the format.
+             */
+            yx: {
+                "urn:ogc:def:crs:EPSG::900913": true
+            }
+        });
+        
+        
+        
+        map = new OpenLayers.Map({
+            div: "map",
+            projection: "EPSG:900913"
+        });    
+        
+        var osm = new OpenLayers.Layer.OSM();
+
+        // If tile matrix identifiers differ from zoom levels (0, 1, 2, ...)
+        // then they must be explicitly provided.
+   xmlformat = new OpenLayers.Format.XML();
+   OpenLayers.Request.GET({
+        url: "http://gis.sinica.edu.tw/tileserver/wmts",
+        params: {
+            SERVICE: "WMTS",
+            VERSION: "1.0.0",
+            REQUEST: "GetCapabilities"
+        },
+        success: function(request) {
+            
+            
+            if(!request.responseXML.documentElement) {
+                doc = xmlformat.read(request.responseText);
+            } else {
+                doc = request.responseXML;
+            }
+            
+            /* if (!doc || !doc.documentElement) {
+                doc = request.responseText;
+            } */
+            
+          
+            /* console.log(doc); */
+            
+        },
+        failure: function() {
+            alert("Trouble getting capabilities doc");
+            OpenLayers.Console.error.apply(OpenLayers.Console, arguments);
+        }
+    });
+        
+   
+        
+        var matrixIds = new Array(18);
+        for (var i=0; i<18; ++i) {
+            matrixIds[i] = "'" + i+"'";
+        }
+
+        var wmts = new OpenLayers.Layer.WMTS({
+            name: "Bing AerialWithLabels",
+            url: "http://gis.sinica.edu.tw/worldmap/wmts-proxy",
+            layer: "BingH",
+            matrixSet: "GoogleMapsCompatible",
+            /* matrixIds: matrixIds, */
+            /* requestEncoding:"KVP", */
+            format: "image/png",
+            style: "_null",
+            opacity: 0.7,
+            isBaseLayer: false
+        });                
+
+        var LayerXYZ = new OpenLayers.Layer.XYZ("Bing","http://gis.sinica.edu.tw/worldmap/file-exists.php?img=BingA-jpg-${z}-${x}-${y}"/* ,{sphericalMercator: false} */);
+        
+        var wmts2 = new OpenLayers.Layer.WMTS({
+            name: "1/5000基本地形圖",
+            url: "http://maps.nlsc.gov.tw/S_Maps/wmts",
+            layer: "B5000",
+            matrixSet: "GoogleMapsCompatible",
+/*             matrixIds: matrixIds, */
+            format: "image/png",
+            style: "_null",
+            opacity: 0.7,
+            isBaseLayer: true
+        });
+
+        map.addLayers([LayerXYZ]);
+        map.addControl(new OpenLayers.Control.LayerSwitcher());
+        map.setCenter(new OpenLayers.LonLat(12105,23500), 8);
+        
+    }
+    
+    function updateOutput(text) {
+        document.getElementById("output").firstChild.nodeValue = text;
+    }
+
+    function write() {
+        var text = format.write(doc);
+        updateOutput(text);
+    }
+
+    function getElementsByTagNameNS(node, uri, name) {
+        var Layers = xmlformat.getElementsByTagNameNS(node, 'http://www.opengis.net/wmts/1.0', 'Layer');
+        var pieces = [];
+        /* console.log(Layers.length); */
+       for(var i=0; i<Layers.length; ++i) {
+            /* pieces.push(format.getChildValue(nodes[i])); */
+            /* Identifier.push(xmlformat.getChildValue(xmlformat.getElementsByTagNameNS(Layers[i], 'http://www.opengis.net/ows/1.1', 'Identifier'))); */
+            Service.push({ Title: Layers[i].childNodes[1].innerHTML, Identifier: Layers[i].childNodes[3].innerHTML , Format: Layers[i].childNodes[9].innerHTML });
+            //Title.push(xmlformat.getElementsByTagNameNS(Layers[i], '', 'ows:Title'));
+            /* Image.push(xmlformat.getChildValue(xmlformat.getElementsByTagNameNS(Layers[i], 'http://www.opengis.net/wmts/1.0', 'Format')));*/
+            
+        }
+        /* for(var i=0; i<Title.length; i++){
+        	var temp = Title[i].innerHTML;
+        	pieces.push(temp);
+        } */
+        for(var i=0;i<Layers.length;i++){
+        	console.log(Service[i].Title+" "+Service[i].Identifier+" "+Service[i].Format);
+        }
+        
+        updateOutput(pieces.join(' '));
+    }
+         
+    </script>
+    </head>
+    
+    <body onload="init();">
+        <h1 id="title">Web Map Tile Service (WMTS) Layer</h1>
+        <div id="tags">
+            wmts
+        </div>         
+        <p id="shortdesc">
+            The WMTS layer allows viewing of tiles from a server implementing
+            the OGC Web Map Tile Service (WMTS) standard version 1.0.0.
+        </p>
+        
+        <div id="map" class="smallmap"></div>
+        
+        <div id="docs">
+            <p>
+                This example uses an OpenLayers.Layer.WMTS layer to display
+                cached tiles over an OSM layer in spherical mercator coordinates.
+            </p>
+        </div>
+        <ul>
+        <li><a href="javascript:void getElementsByTagNameNS(doc, 'http://www.opengis.net/ows/1.1', 'Identifier');">format.getElementsByTagNameNS()</a> - get all gml:MultiPolygon</li>
+        </ul>
+        <div id="output">&nbsp;</div>
+    </body>
+</html>

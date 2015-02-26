@@ -1,0 +1,162 @@
+body {
+    background-position: 0 -64px;
+    background-repeat: repeat-x;
+    background-color: #fff;
+    font-family: "·L³n¥¿¶ÂÅé" , "Microsoft JhengHei";
+    margin: 0;
+    padding: 0;
+}
+a { color: #699dad }
+img#gftop {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+div#gfmain {
+    margin-top: 50px;
+    padding: 20px;
+}
+div#gfmain p { margin-left: 10px }
+div#tools-top {
+    position: absolute;
+    margin: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    width: expression((document.documentElement.clientWidth ? document.documentElement.clientWidth:document.body.clientWidth));
+    z-index: 0;
+    background-color: #fff;
+    border-bottom: 2px solid #8bc;
+}
+div#tools-right {
+    position: absolute;
+    right: 0;
+    width: 300px;
+    height: 30px;
+    padding: 6px 40px;
+    z-index: 1;
+    background-image: url(/img/bg-right.gif);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+div#tools-right img { border-style: none }
+select#tools-switcher {
+    position: absolute;
+    padding: 0;
+    right: 10px;
+    top: 5px;
+    z-index: 3;
+}
+div#tools-titlebar {
+    font-size: 11pt;
+    height: 39px;
+    width: 100%;
+    color:White;
+    text-align: left;
+    vertical-align:bottom;
+    background-image: url('/MapCompare/img/header_bg.gif');
+    background-repeat: repeat-x
+}
+#tools-title{
+    position:relative;
+    margin: 0px 0 0px 0;
+    padding: 0;
+    font-size: 130%;
+    color: white;
+     top:20%;
+}
+#maplink{
+	position: absolute;
+    right:10px;
+    top:20px;
+}
+
+div#info-text {
+    margin: 4px 0 8px 0;
+    padding: 0;
+    font-size: 80%;
+    color: #909090;
+    z-index: 0;
+}
+div#tools-help {
+    position: absolute;
+    right: 360px;
+    width: 100px;
+}
+div#tools-help a { text-decoration: none }
+div#tools-help img { border-style: none }
+div#tools-help span {
+    position: relative;
+    top: -4px;
+}
+.jqmWindow {
+    display: none;
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    margin-left: -400px;
+    width: 800px;
+    background-color: #EEE;
+    color: #333;
+    border: 1px solid black;
+}
+* html .jqmWindow {
+    position: absolute;
+    top: expression((document.documentElement.scrollTop || document.body.scrollTop)+Math.round(17 *(document.documentElement.offsetHeight || document.body.clientHeight) / 100)+'px');
+}
+.jqmOverlay { background-color: #000 }
+div.dialog-title {
+    background-color: #000;
+    color: #fff;
+    padding: 2px 6px;
+    font-weight: bold;
+}
+div.dialog-title img {
+    position: absolute;
+    right: 2px;
+}
+div.dialog-msg {
+    padding: 12px;
+    height: 600px;
+    overflow: auto;
+}
+div.dialog-msg td {
+    vertical-align: top;
+    padding: 2px 0;
+    border-bottom: 1px dotted #fff;
+}
+div#tools-bottom {
+    position: absolute;
+    bottom: 22px;
+    width: 100%;
+    height: 20px;
+    background-image: url(/img/bg-bottom.png);
+    background-position: 0 -6px;
+    background-repeat: repeat-x;
+}
+#copyright {
+    position: absolute;
+    bottom: 0;
+    height: 18px;
+    /* background-color: #fff; */
+    color: #404040;
+    width: 100%;
+    padding: 2px 0;
+    font-size: 80%;
+    /* border-top: 2px solid #8bc; */
+    text-align: center;
+}
+div#tools-copyright a { color: #404040 }
+div#tools-copyright-rel {
+    background-color: #fff;
+    color: #404040;
+    width: 100%;
+    padding: 2px 0;
+    font-size: 80%;
+    border-top: 2px solid #8bc;
+    text-align: center;
+    clear: both;
+}
+div#tools-copyright-rel a { color: #404040 }
+iframe#josmiframe { display: none }

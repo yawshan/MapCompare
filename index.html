@@ -1,0 +1,113 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>台灣百年歷史地圖多視窗比對</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+<link rel="stylesheet" type="text/css"	href="/MapCompare/css/common.min.css" />
+<link rel="stylesheet" type="text/css" href="mc.min.css" />
+<link rel="stylesheet" type="text/css"	href="/MapCompare/css/style.css" />
+<link rel="stylesheet" type="text/css"	href="/MapCompare/css/swipe.css" />
+<style>
+.olImageLoadError {
+	/* when OL encounters a 404, don't display the pink image */
+	display: none !important;
+}
+</style>
+</head>
+<body>
+
+
+	<div id="tools-titlebar">
+			<!-- <div id="tools-help">
+	      <span title="Available keyboard shortcuts: for navigation: arrow left, arrow right, arrow up, arrow down, h/j/k/l; for zoom: -/=/+/0; to toggle fullscreen: f; jump to geolocation: g; select number of maps: 1/2/3/4/6/8">
+		<a class="tools-helptrigger" href="help.html"><img src="/MapCompare/img/help.gif" alt="" width="22" height="22"/> <span>Help</span></a>
+	     </span>
+	    </div> -->
+	    <span id="tools-title" >
+			台灣百年歷史地圖多視窗比對
+		</span>
+		<span id="maplink">
+		<a style="color:white" href ="http://gissrv4.sinica.edu.tw/gis/twhgis.aspx"  target="_parent" >回台灣百年歷史地圖</a>
+		</span>
+		<!-- <div id="tools-pageload">
+			Loading... <img src="/MapCompare/img/indicator.gif" alt=""
+				title="Loading JavaScript libraries" />
+		</div>
+		 -->
+		<span id="noscript"><noscript>Please enable JavaScript in your
+				browser. Thanks!
+			</noscript></span>
+	</div>
+
+	<div class="jqmWindow" id="tools-helpwin">
+		Please wait... <img src="/MapCompare/img/indicator.gif" alt="loading" />
+	</div>
+
+	<div id="table">
+		<table width="100%">
+			<!-- first row -->
+			<tr id="tr0">
+				<td class="maps" id="column0">
+					<form action="" class="switch" id="head0">
+						<div>
+							選擇圖層 <select id="sw0" name="sw0"><option>none</option></select>
+						</div>
+					</form>
+					<div class="map" id="map0"></div>
+				</td>
+				<td class="maps" id="column1">
+					<form action="" class="switch" id="head1">
+						<div>
+							選擇圖層 <select id="sw1" name="sw1"><option>none</option></select>
+						</div>
+					</form>
+					<div class="map" id="map1"></div>
+				</td>
+			</tr>
+
+			<tr id="tr1">
+				<!-- <td></td> -->
+			</tr>
+			<tr id="tr2" style="border-color:white">
+				<!-- <td></td> -->
+			</tr>
+			<tr id="tr3">
+				<td></td>
+			</tr>
+			<tr id="tr4">
+				<td></td>
+			</tr>
+		</table>
+	</div>
+
+	<div id="bottom">
+		<img src="/MapCompare/img/logo.png" id="gislogo" alt="" />
+		<div id="map-decoration">
+			<span id="customMousePosition"></span> <span id="customZoomLevel">zoom=</span>
+			<span id="NumberOfMaps"></span>
+			<span id="customPermalink"><a href="" id="permalink" title="set permanent link">permalink</a></span>
+			<span><a href="javascript:toggleFullScreen();" id="fullscreen" title="toggle fullscreen mode">fullscreen</a></span>
+			<br />
+			
+		</div>
+		<div id="tip"><span>Tips: 按' p '鍵可產生Permalink，' f '鍵可切換視窗全螢幕</span></div>
+		<div id="copyright">
+			<span>本系統採用 <a href="http://tools.geofabrik.de/" target="_new">Geofabrik</a>之 Map Compare 技術開發。</span>
+		</div>
+	</div>
+
+
+	<script type="text/javascript"	src="http://code.jquery.com/jquery-1.10.2.js"></script>
+	<script type="text/javascript"	src="http://static.geofabrik.de/jquery-20130606/jQmodal.js"></script>
+	<script type="text/javascript"	src="/MapCompare/js/OpenLayers.js"></script>
+	<script type="text/javascript" src="/MapCompare/js/OpenStreetMap.js"></script>
+	<script type="text/javascript" src="/MapCompare/js/Swipe.js"></script>
+	<script type="text/javascript" src="/MapCompare/js/OpenLayers.Control.Swipe.prototype.clipFirstLayer.js"></script>
+	<script type="text/javascript" src="/MapCompare/js/common.min.js"></script>
+	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript" src="mc.min.js"></script>
+
+</body>
+</html>
